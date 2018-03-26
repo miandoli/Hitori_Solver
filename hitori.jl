@@ -346,25 +346,40 @@ puzzle194 = vcat([6 4 8 5 15 7 2 13 10 12 11 4],
                 [4 1 5 2 12 4 5 10 7 13 8 3],
                 [1 6 5 7 8 9 11 1 12 14 13 1])
 # Solve puzzle:
-arg = 177 # Default puzzle
+
+
+# arg = 177 # Default puzzle
+# if size(ARGS, 1) == 1
+#     arg = ARGS[1] # User selected puzzle to solve
+# end
+#
+# # Print out puzzle name
+# println("Puzzle: ", arg, "\n")
+# puzzle = puzzle177
+# if arg == 152
+#     puzzle = puzzle152
+# elseif arg == 161
+#     puzzle = puzzle161
+# elseif arg == 177
+#     puzzle = puzzle177
+# elseif arg == 193
+#     puzzle = puzzle193
+# elseif arg == 194
+#     puzzle = puzzle194
+# end
+
+arg = "152.txt"
 if size(ARGS, 1) == 1
     arg = ARGS[1] # User selected puzzle to solve
 end
 
-# Print out puzzle name
-println("Puzzle ", arg, "\n")
-puzzle = puzzle177
-if arg == 152
-    puzzle = puzzle152
-elseif arg == 161
-    puzzle = puzzle161
-elseif arg == 177
-    puzzle = puzzle177
-elseif arg == 193
-    puzzle = puzzle193
-elseif arg == 194
-    puzzle = puzzle194
-end
+path = "C:\\Users\\Miandoli8\\Documents\\Code\\Hitori_Solver\\Puzzles\\"
+myStr = read(path * arg)
+
+myStr2 = "m\nn\no"
+
+arr1 = split(myStr2, '\n')
+println(arr1)
 
 # Call function to solve puzzle
-solve(puzzle)
+# solve(puzzle)
