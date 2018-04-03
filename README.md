@@ -4,7 +4,9 @@
 
 ## Description
 A Julia script that solves a Hitori puzzle
+
 Rules and description of the puzzle game Hitori
+
 https://www.puzzlemix.com/rules-hitori.php?briefheader=1&JStoFront=1
 
 ## How It Works
