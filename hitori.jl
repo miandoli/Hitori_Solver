@@ -5,10 +5,11 @@
 # Prints the given puzzle in a format that is easy to understand
 # @param puzzle Array of ints that represent the given puzzle
 # @param solve Array of characters that represent the solved portion of the puzzle
-# @param highX Int for the x-index to be highlighted (Default: 0 or none highlighted)
+# @param col String "y" to print with color, "n" no color
+# @param highX Int for the x-index to be highlighted (Purpuse: Debugging, Default: 0 or none highlighted)
 # @param highY Int for the y-index to be highlighted
 # @return void
-function printpuzzle(puzzle, solve, highX = 0, highY = 0)
+function printpuzzle(puzzle, solve, col, highX = 0, highY = 0)
     # Loops thru each element in the puzzle array
     for i = 1:size(puzzle, 1)
         for j = 1:size(puzzle, 2)
@@ -18,15 +19,20 @@ function printpuzzle(puzzle, solve, highX = 0, highY = 0)
             if solve[i, j] == "○" # Green: circled
                 if i == highX && j == highY
                     print_with_color(:blue, curr, space) # Blue: highlighted
-                else
+                elseif col == "y"
                     print_with_color(:green, curr, space)
+                else
+                    space = space == "    " ? "   " : "  "
+                    print(curr, "*", space)
                 end
             elseif solve[i, j] == "■" # Red: shaded in
                 if i == highX && j == highY
                     print_with_color(:blue, curr, space)
-                else
-                    bold = true;
+                elseif col == "y"
+                    bold = true
                     print_with_color(:red, curr, space)
+                else
+                    print(curr, space)
                 end
             else # Black: unsolved
                 if i == highX && j == highY
@@ -42,8 +48,9 @@ end
 
 # Solves the puzzle
 # @param puzzle Array of ints representing the hitori grid
+# @param haveColor String "y" to print with color, "n" no color
 # @return void
-function solve(puzzle)
+function solve(puzzle, haveColor)
     # Creates an array of characters that represent an unsolved state
     solution = fill("□", size(puzzle, 1), size(puzzle, 2))
 
@@ -278,108 +285,53 @@ function solve(puzzle)
     while flooding()
     end
 
-    printpuzzle(puzzle, solution)
+    printpuzzle(puzzle, solution, haveColor)
 end
 
-# Sets of puzzles
-#152
-puzzle152 = vcat([7 8 2 7 2 2 2 3],
-                [4 7 5 6 8 1 3 2],
-                [1 4 2 3 5 6 8 7],
-                [6 6 7 4 2 7 5 8],
-                [2 2 1 1 1 4 6 5],
-                [2 5 3 4 6 7 3 8],
-                [2 6 4 7 7 7 2 1],
-                [8 3 8 2 4 5 7 5])
-#161
-puzzle161 = vcat([3 7 8 8 6 5 2 2],
-                [8 8 5 1 6 6 2 2],
-                [7 2 8 2 2 2 6 5],
-                [6 2 7 3 1 8 5 2],
-                [5 1 6 2 6 7 5 2],
-                [5 5 5 6 4 4 8 7],
-                [2 2 3 7 5 4 1 3],
-                [8 4 1 1 3 3 7 6])
-#177
-puzzle177 = vcat([8 12 5 2 2 2 11 3 3 3],
-                [6 10 7 9 4 8 1 3 5 12],
-                [3 11 4 6 5 5 5 12 2 4],
-                [8 6 9 8 6 10 3 5 3 2],
-                [2 10 8 5 12 4 7 11 1 8],
-                [5 11 6 8 8 7 12 12 4 12],
-                [8 9 2 11 11 11 8 10 10 7],
-                [7 5 8 10 5 9 2 5 6 1],
-                [12 8 1 3 11 2 7 9 11 7],
-                [10 6 11 8 8 12 7 7 7 4],
-                [11 1 12 2 8 1 6 8 10 5],
-                [7 5 10 12 7 2 4 10 8 4])
-#193
-puzzle193 = vcat([3 4 12 11 13 6 13 14 5 5 2 1],
-                [9 3 11 12 12 12 14 13 1 6 1 14],
-                [11 9 5 4 4 14 10 7 13 15 14 9],
-                [15 1 9 6 10 3 12 4 2 12 14 13],
-                [2 5 13 12 3 7 1 15 6 8 14 2],
-                [6 4 15 4 1 1 3 4 8 12 5 4],
-                [12 13 6 5 7 15 9 8 9 1 11 14],
-                [7 5 1 15 2 10 5 3 9 7 6 5],
-                [13 15 8 11 9 6 11 10 9 3 13 12],
-                [5 3 14 13 12 8 14 1 7 9 5 3],
-                [10 11 11 3 5 13 7 12 12 13 9 9],
-                [14 2 10 9 11 9 13 12 12 5 15 14],
-                [9 10 3 6 4 12 14 5 11 6 8 9],
-                [13 11 7 6 8 1 10 6 15 2 12 11],
-                [7 9 2 6 3 7 5 4 2 12 7 2])
-#194
-puzzle194 = vcat([6 4 8 5 15 7 2 13 10 12 11 4],
-                [6 11 15 10 7 13 1 3 2 4 12 13],
-                [6 5 5 6 1 8 10 14 7 13 12 7],
-                [2 6 11 7 3 9 12 1 13 15 12 9],
-                [8 13 2 14 9 1 11 7 4 14 5 13],
-                [3 10 12 7 4 3 13 2 12 1 15 10],
-                [10 15 4 1 12 3 5 10 6 8 15 2],
-                [13 10 7 10 14 3 8 12 9 4 10 13],
-                [1 14 1 15 10 2 4 8 5 7 6 1],
-                [7 12 1 7 8 12 2 13 3 7 4 14],
-                [5 15 14 11 7 13 1 4 8 3 2 5],
-                [4 2 6 5 13 5 7 11 8 10 11 4],
-                [4 9 5 10 7 12 14 3 8 2 1 11],
-                [4 1 5 2 12 4 5 10 7 13 8 3],
-                [1 6 5 7 8 9 11 1 12 14 13 1])
-# Solve puzzle:
-
-
-# arg = 177 # Default puzzle
-# if size(ARGS, 1) == 1
-#     arg = ARGS[1] # User selected puzzle to solve
-# end
-#
-# # Print out puzzle name
-# println("Puzzle: ", arg, "\n")
-# puzzle = puzzle177
-# if arg == 152
-#     puzzle = puzzle152
-# elseif arg == 161
-#     puzzle = puzzle161
-# elseif arg == 177
-#     puzzle = puzzle177
-# elseif arg == 193
-#     puzzle = puzzle193
-# elseif arg == 194
-#     puzzle = puzzle194
-# end
-
+# Read and solve puzzle:
 arg = "152.txt"
-if size(ARGS, 1) == 1
+printColor = "n"
+if size(ARGS, 1) >= 1
     arg = ARGS[1] # User selected puzzle to solve
 end
+if size(ARGS, 1) == 2
+    printColor = ARGS[2]
+end
 
-path = "C:\\Users\\Miandoli8\\Documents\\Code\\Hitori_Solver\\Puzzles\\"
-myStr = read(path * arg)
+path = abspath(string("Hitori_Solver\\Puzzles\\", arg))
+print(path)
+try
+    # Try to read input file as an array of strings (each on line)
+    myStream = open(path)
+    println("File opened")
+    lines = readlines(myStream)
 
-myStr2 = "m\nn\no"
+    println("Puzzle: ", arg, "\n")
 
-arr1 = split(myStr2, '\n')
-println(arr1)
+    # Get number of rows and columns
+    rows = size(lines, 1)
+    spaces = 0
+    for char in lines[1]
+        if char == ' '
+            spaces += 1
+        end
+    end
+    cols = spaces + 1
 
-# Call function to solve puzzle
-# solve(puzzle)
+    # Parse text file
+    parsePuzzle = fill(0, rows, cols)
+    for i = 1:size(lines, 1)
+        j = 1
+        for char in lines[i]
+            arr = split(lines[i], " ")
+            for j = 1:size(arr, 1)
+                parsePuzzle[i, j] = parse(Int, arr[j])
+            end
+        end
+    end
+
+    # Call function to solve puzzle
+    solve(parsePuzzle, printColor)
+catch
+    println("Invalid file")
+end

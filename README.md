@@ -25,8 +25,7 @@ https://www.puzzlemix.com/rules-hitori.php?briefheader=1&JStoFront=1
 
 ## How to Run It
 1. Run on the Julia Pro Command Line
-2. Have the hitori.jl file in the Julia local folder
-3. Type the following in the command line:
-	1. ARGS = (desired puzzle, default: 177)
-	2. include("hitori.jl")
-
+2. Have the Hitori_Solver folder in the Julia local directory
+3. Type the following in the command line (puzzle file name and color or no color):
+	* ARGS = ["puzzle.txt", optional: "y"/"n"]
+	* include("hitori.jl")
